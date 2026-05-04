@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainQuiz Daily – Memory Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<!-- html2canvas for share image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --bg: #0d0d1a;
+  --surface: #13131f;
+  --card: #1a1a2e;
+  --border: #2a2a45;
+  --accent: #7c6aff;
+  --accent2: #ff6b9d;
+  --accent3: #43e8d8;
+  --text: #f0f0ff;
+  --muted: #8888bb;
+  --shadow: 0 8px 40px rgba(124,106,255,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 20%,rgba(124,106,255,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(67,232,216,0.06) 0%,transparent 60%);pointer-events:none;z-index:0;}
+.wrap{max-width:620px;margin:0 auto;padding:16px 16px 60px;position:relative;z-index:1;}
+
+/* ── AdSense slots ── */
+.ad-top{margin:0 auto 20px;max-width:620px;min-height:90px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700;overflow:hidden;}
+.ad-mid{margin:16px auto;max-width:620px;min-height:250px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700;overflow:hidden;}
+.ad-inline{margin:14px auto;max-width:320px;min-height:100px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700;overflow:hidden;}
+
+/* ── Header ── */
+.header{text-align:center;padding:28px 0 20px;animation:fadeDown .6s ease;}
+.logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;}
+.logo-icon{width:48px;height:48px;background:linear-gradient(135deg,#7c6aff,#ff6b9d);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 20px rgba(124,106,255,0.4);}
+.logo-text{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,#7c6aff,#43e8d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.header h1{font-family:'Syne',sans-serif;font-size:clamp(22px,5vw,30px);font-weight:800;margin-bottom:8px;}
+.header p{color:var(--muted);font-size:14px;line-height:1.6;}
+
+/* ── Lang ── */
+.lang-sec{margin-bottom:16px;animation:fadeUp .5s ease .1s both;}
+.lang-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.lang-grid{display:flex;flex-wrap:wrap;gap:6px;}
+.lang-btn{padding:5px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;}
+.lang-btn:hover{border-color:var(--accent);color:var(--text);}
+.lang-btn.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ── Start Card ── */
+.start-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:16px;animation:fadeUp .5s ease .2s both;}
+.info-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.info-item{text-align:center;padding:14px 8px;background:var(--surface);border-radius:12px;border:1px solid var(--border);}
+.info-num{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);display:block;}
+.info-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:700;}
+.start-btn{width:100%;padding:16px;background:linear-gradient(135deg,#7c6aff,#9b5de5);border:none;border-radius:14px;color:#fff;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;cursor:pointer;transition:all .3s;box-shadow:0 6px 24px rgba(124,106,255,0.4);}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,106,255,0.5);}
+
+/* ── Quiz ── */
+.quiz-area{display:none;}
+.prog-wrap{margin-bottom:16px;}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:6px;}
+.prog-counter{font-size:13px;font-weight:800;color:var(--accent);}
+.prog-score{font-size:13px;font-weight:700;color:var(--accent3);}
+.prog-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,#7c6aff,#43e8d8);border-radius:4px;transition:width .5s ease;}
+
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--shadow);margin-bottom:14px;animation:slideIn .4s ease;}
+.q-badge{display:inline-block;padding:4px 12px;border-radius:10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.q-text{font-family:'Syne',sans-serif;font-size:clamp(15px,3.5vw,19px);font-weight:800;line-height:1.4;color:var(--text);margin-bottom:14px;}
+
+/* Timer */
+.timer-label{font-size:13px;font-weight:700;color:var(--accent2);text-align:center;margin-bottom:6px;}
+.timer-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:14px;}
+.timer-fill{height:100%;background:linear-gradient(90deg,#ff6b9d,#f39c12);border-radius:3px;transition:width .1s linear;}
+
+/* Visual area */
+.visual{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;min-height:160px;flex-wrap:wrap;gap:12px;}
+
+/* Grid 3x3 */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:260px;}
+.gcell{background:var(--card);border:1.5px solid var(--border);border-radius:10px;height:72px;display:flex;align-items:center;justify-content:center;font-size:34px;}
+.gcell.empty{color:var(--border);}
+
+/* Sequence display */
+.seq-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+.seq-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.seq-emoji{font-size:48px;line-height:1;}
+.seq-num{font-size:11px;font-weight:800;color:var(--muted);background:var(--card);border-radius:6px;padding:2px 8px;}
+
+/* Color sequence */
+.color-seq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
+.color-ball{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid rgba(255,255,255,0.1);}
+.color-arrow{font-size:20px;color:var(--muted);}
+
+/* Numbers */
+.num-seq{display:flex;gap:14px;align-items:center;justify-content:center;}
+.num-box{width:64px;height:64px;border-radius:12px;background:var(--card);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--accent);}
+
+/* Story */
+.story-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.story-emoji{font-size:42px;}
+.story-label{font-size:10px;font-weight:700;color:var(--muted);}
+
+/* Options */
+.opts{display:grid;gap:9px;}
+.opts.g2{grid-template-columns:1fr 1fr;}
+.opt-btn{padding:13px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;font-family:'Nunito',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;}
+.opt-btn .oe{font-size:26px;}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:rgba(124,106,255,0.12);transform:translateY(-1px);}
+.opt-btn.correct{border-color:#43e8d8;background:rgba(67,232,216,0.12);color:#43e8d8;}
+.opt-btn.wrong{border-color:#ff6b9d;background:rgba(255,107,157,0.12);color:#ff6b9d;}
+.opt-btn.reveal{border-color:#43e8d8;background:rgba(67,232,216,0.08);color:#43e8d8;}
+
+.fb{padding:12px 16px;border-radius:12px;font-size:13px;font-weight:700;line-height:1.6;display:none;margin-bottom:12px;animation:fadeUp .3s ease;}
+.fb.ok{background:rgba(67,232,216,0.1);border:1.5px solid rgba(67,232,216,0.3);color:#43e8d8;}
+.fb.no{background:rgba(255,107,157,0.1);border:1.5px solid rgba(255,107,157,0.3);color:#ff6b9d;}
+
+.next-btn{width:100%;padding:14px;background:linear-gradient(135deg,#7c6aff,#9b5de5);border:none;border-radius:12px;color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:none;transition:all .3s;box-shadow:0 4px 16px rgba(124,106,255,0.3);}
+.next-btn:hover{transform:translateY(-2px);}
+
+/* ── Result ── */
+.result-area{display:none;}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center;box-shadow:var(--shadow);animation:fadeUp .6s ease;margin-bottom:16px;}
+.res-stars{font-size:36px;margin-bottom:14px;letter-spacing:4px;}
+.res-badge{display:inline-block;padding:6px 20px;border-radius:20px;font-size:13px;font-weight:800;letter-spacing:.04em;margin-bottom:18px;}
+.res-circle{width:130px;height:130px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;border:4px solid;}
+.res-num{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;line-height:1;}
+.res-of{font-size:13px;color:var(--muted);margin-top:3px;font-weight:700;}
+.res-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px;}
+.res-desc{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px;font-weight:600;}
+.res-tips{background:var(--surface);border-radius:14px;padding:18px;text-align:left;margin-bottom:22px;border:1px solid var(--border);}
+.tips-title{font-size:11px;font-weight:800;color:var(--accent3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.tip-item{display:flex;gap:8px;margin-bottom:8px;font-size:13px;color:var(--muted);line-height:1.5;font-weight:600;}
+.tip-dot{color:var(--accent);flex-shrink:0;}
+
+/* Share buttons */
+.share-section{margin-bottom:16px;}
+.share-title{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-bottom:12px;}
+.share-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px;}
+.share-btn{padding:12px 10px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.share-btn:hover{transform:translateY(-2px);}
+.btn-insta{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;}
+.btn-twitter{background:#1DA1F2;color:#fff;}
+.btn-facebook{background:#1877F2;color:#fff;}
+.btn-whatsapp{background:#25D366;color:#fff;}
+.btn-download{background:linear-gradient(135deg,#7c6aff,#43e8d8);color:#fff;grid-column:span 2;}
+
+.retry-btn{width:100%;padding:16px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;color:var(--text);font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:all .3s;margin-top:8px;}
+.retry-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── Ad Modal (15s) ── */
+.ad-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.ad-modal.show{display:flex;}
+.ad-modal-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;width:100%;max-width:400px;text-align:center;}
+.ad-modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.ad-modal-sub{font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:600;}
+.ad-countdown{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--accent);margin-bottom:10px;}
+.ad-timer-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:16px;}
+.ad-timer-fill{height:100%;background:linear-gradient(90deg,#7c6aff,#43e8d8);border-radius:3px;transition:width 1s linear;}
+.ad-slot{min-height:250px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700;margin-bottom:16px;overflow:hidden;}
+.ad-skip-btn{padding:10px 28px;background:linear-gradient(135deg,#7c6aff,#43e8d8);border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:none;transition:all .2s;}
+.ad-skip-btn:hover{transform:translateY(-2px);}
+
+/* ── Share Canvas (hidden) ── */
+#shareCanvas{position:fixed;left:-9999px;top:0;width:450px;height:800px;background:#0d0d1a;}
+
+/* Animations */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Top Ad (728x90 Leaderboard / 320x50 mobile) -->
+<div class="ad-top">
+  <ins class="adsbygoogle"
+    style="display:block;width:100%;height:90px;"
+    data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+    data-ad-slot="XXXXXXXXXX"
+    data-ad-format="horizontal"
+    data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+
+<!-- Header -->
+<div class="header" id="mainHeader">
+  <div class="logo">
+    <div class="logo-icon">🧠</div>
+    <span class="logo-text">BrainQuiz Daily</span>
+  </div>
+  <h1 id="mainTitle">Memory Challenge</h1>
+  <p id="mainSub">Can you remember? 5 hard memory tests.<br>For all ages — seniors & kids welcome! 🎯</p>
+</div>
+
+<!-- Language -->
+<div class="lang-sec" id="langSec">
+  <div class="lang-label">🌍 Language</div>
+  <div class="lang-grid" id="langGrid"></div>
+</div>
+
+<!-- Start -->
+<div class="start-card" id="startCard">
+  <div class="info-row">
+    <div class="info-item"><span class="info-num">5</span><span class="info-desc" id="iQ">Questions</span></div>
+    <div class="info-item"><span class="info-num">🧠</span><span class="info-desc" id="iT">Memory</span></div>
+    <div class="info-item"><span class="info-num">5</span><span class="info-desc" id="iG">Grades</span></div>
+  </div>
+  <button class="start-btn" id="startBtn" onclick="startQuiz()">🧠 Start Test!</button>
+</div>
+
+<!-- Mid Ad (300x250 Rectangle) -->
+<div class="ad-mid" id="adMid">
+  <ins class="adsbygoogle"
+    style="display:block;width:300px;height:250px;"
+    data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+    data-ad-slot="XXXXXXXXXX"
+    data-ad-format="rectangle"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+
+<!-- Quiz -->
+<div class="quiz-area" id="quizArea">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-counter" id="progCounter">1 / 5</span>
+      <span class="prog-score" id="progScore">⭐ 0</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-badge" id="qBadge">Memory</div>
+    <div class="q-text" id="qText"></div>
+    <div class="timer-label" id="timerLabel" style="display:none"></div>
+    <div class="timer-bar" id="timerBar" style="display:none"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
+    <div class="visual" id="visual"></div>
+  </div>
+
+  <!-- Inline Ad between question and options -->
+  <div class="ad-inline">
+    <ins class="adsbygoogle"
+      style="display:block;width:320px;height:100px;"
+      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+      data-ad-slot="XXXXXXXXXX"
+      data-ad-format="rectangle"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <div class="opts g2" id="opts"></div>
+  <div class="fb" id="fb"></div>
+  <button class="next-btn" id="nextBtn" onclick="nextQ()">Next →</button>
+</div>
+
+<!-- Result -->
+<div class="result-area" id="resultArea">
+  <div class="result-card">
+    <div class="res-stars" id="resStars"></div>
+    <div class="res-badge" id="resBadge"></div>
+    <div class="res-circle" id="resCircle">
+      <span class="res-num" id="resNum"></span>
+      <span class="res-of">/ 5</span>
+    </div>
+    <div class="res-title" id="resTitle"></div>
+    <div class="res-desc" id="resDesc"></div>
+    <div class="res-tips" id="resTips"></div>
+  </div>
+
+  <!-- Share Section -->
+  <div class="share-section">
+    <div class="share-title" id="shareTitle">Share Your Result!</div>
+    <div class="share-grid">
+      <button class="share-btn btn-insta" onclick="openShare('instagram')">📸 Instagram</button>
+      <button class="share-btn btn-twitter" onclick="openShare('twitter')">𝕏 Twitter</button>
+      <button class="share-btn btn-facebook" onclick="openShare('facebook')">f Facebook</button>
+      <button class="share-btn btn-whatsapp" onclick="openShare('whatsapp')">💬 WhatsApp</button>
+      <button class="share-btn btn-download" onclick="openShare('download')">⬇️ Download Image</button>
+    </div>
+  </div>
+
+  <!-- Bottom Ad -->
+  <div class="ad-mid">
+    <ins class="adsbygoogle"
+      style="display:block;width:300px;height:250px;"
+      data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+      data-ad-slot="XXXXXXXXXX"
+      data-ad-format="rectangle"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </div>
+
+  <button class="retry-btn" id="retryBtn" onclick="reset()">🔄 Try Again</button>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- 15s Ad Modal -->
+<div class="ad-modal" id="adModal">
+  <div class="ad-modal-box">
+    <div class="ad-modal-title">📢 Advertisement</div>
+    <div class="ad-modal-sub" id="adModalSub">Your image will be ready after the ad</div>
+    <div class="ad-countdown" id="adCount">15</div>
+    <div class="ad-timer-bar"><div class="ad-timer-fill" id="adTimerFill" style="width:100%"></div></div>
+    <!-- AdSense 300x250 in modal -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle"
+        style="display:block;width:300px;height:250px;"
+        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-slot="XXXXXXXXXX"
+        data-ad-format="rectangle"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </div>
+    <button class="ad-skip-btn" id="adSkipBtn" onclick="afterAd()">✅ Get My Image!</button>
+  </div>
+</div>
+
+<!-- Hidden share canvas -->
+<div id="shareCanvas"></div>
+
+<!-- Image Preview Modal -->
+<div id="imgModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1a1a2e;border:1px solid #2a2a45;border-radius:20px;padding:24px;width:100%;max-width:360px;text-align:center;">
+    <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:#f0f0ff;margin-bottom:6px;">📸 Your Result Image</div>
+    <div style="font-size:12px;color:#8888bb;margin-bottom:16px;font-weight:600;">Tap the button below to download!</div>
+    <div id="imgPreview" style="margin-bottom:16px;"></div>
+    <button id="imgDlBtn" style="width:100%;padding:14px;background:linear-gradient(135deg,#7c6aff,#43e8d8);border:none;border-radius:12px;color:#fff;font-family:Syne,sans-serif;font-size:16px;font-weight:800;cursor:pointer;display:none;margin-bottom:10px;">⬇️ Download Image</button>
+    <button onclick="document.getElementById('imgModal').style.display='none'" style="width:100%;padding:10px;background:transparent;border:1.5px solid #2a2a45;border-radius:12px;color:#8888bb;font-family:Nunito,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">✕ Close</button>
+  </div>
+</div>
+
+<script>
+// ── Languages ──────────────────────────────────────────
+const langs = [
+  {c:'en',n:'English'},{c:'ko',n:'한국어'},{c:'ja',n:'日本語'},{c:'zh',n:'中文'},
+  {c:'es',n:'Español'},{c:'fr',n:'Français'},{c:'de',n:'Deutsch'},{c:'pt',n:'Português'},
+  {c:'ar',n:'العربية'},{c:'hi',n:'हिन्दी'},{c:'ru',n:'Русский'},{c:'id',n:'Indonesia'}
+];
+
+const TR = {
+  en:{title:"Memory Challenge",sub:"Can you remember? 5 hard memory tests.<br>For all ages! 🎯",iQ:"Questions",iT:"Memory",iG:"Grades",start:"🧠 Start Test!",next:"Next →",seeResult:"See Results →",retry:"🔄 Try Again",shareTitle:"Share Your Result!",adSub:"Your image will be ready after the ad",memorize:"Memorize!",secondsLeft:"sec",question:"Question",correct:"✅ Correct!",wrong:"❌ Wrong!",
+    q1:{memorize:"Memorize these 6 items in order!",ask:"What was the 4th item?"},
+    q2:{memorize:"Memorize the color sequence!",ask:"What color came RIGHT AFTER Red ❤️?"},
+    q3:{memorize:"Memorize these 5 numbers!",ask:"What is the SUM of all numbers?"},
+    q4:{memorize:"Memorize these 5 numbers!",ask:"What is the SUM of the 3rd and 5th numbers?"},
+    q5:{memorize:"Read this story carefully!",ask:"How many apples did he buy?"},
+    grades:[
+      {label:"🏆 PERFECT",stars:"⭐⭐⭐⭐⭐",title:"Incredible Memory!",color:"#43e8d8",desc:"You have outstanding short-term memory. Your brain is in excellent shape!",tips:["Keep challenging your memory daily","Share this test with family","Your brain health is amazing — keep it up!"]},
+      {label:"🥇 EXCELLENT",stars:"⭐⭐⭐⭐",title:"Great Memory!",color:"#7c6aff",desc:"Your memory is strong! Just one step away from perfect.",tips:["Practice memory games daily","Try memorizing phone numbers or poems","Stay mentally active and social"]},
+      {label:"👍 GOOD",stars:"⭐⭐⭐",title:"Good Job!",color:"#f39c12",desc:"Your memory is decent but there's room to improve. Keep practicing!",tips:["Repeat memory exercises daily","Try writing down things you want to remember","Get 7-8 hours of sleep for better memory"]},
+      {label:"💪 KEEP GOING",stars:"⭐⭐",title:"Keep Practicing!",color:"#ff9f43",desc:"Memory improves with regular exercise. Don't give up — try again!",tips:["Play memory card matching games","Exercise regularly to boost brain function","Reduce stress — it affects memory a lot"]},
+      {label:"❤️ NEED SUPPORT",stars:"⭐",title:"Please Seek Support",color:"#ff6b9d",desc:"Your results suggest a visit to a doctor may be beneficial. Please consult a healthcare professional.",tips:["Visit your doctor for a cognitive checkup","Bring a trusted family member","Daily walks and social activities help","Early detection makes a big difference!"]}
+    ]
+  },
+  ko:{title:"기억력 챌린지",sub:"기억할 수 있나요? 5가지 어려운 기억력 테스트.<br>모든 연령 환영! 🎯",iQ:"문제",iT:"기억력",iG:"등급",start:"🧠 테스트 시작!",next:"다음 →",seeResult:"결과 보기 →",retry:"🔄 다시 도전",shareTitle:"결과 공유하기!",adSub:"광고 후 이미지를 받을 수 있어요",memorize:"외우세요!",secondsLeft:"초",question:"문제",correct:"✅ 정답!",wrong:"❌ 틀렸어요!",
+    q1:{memorize:"6개의 항목을 순서대로 외우세요!",ask:"4번째 항목은 무엇이었나요?"},
+    q2:{memorize:"색깔 순서를 외우세요!",ask:"빨간색 ❤️ 바로 다음 색깔은?"},
+    q3:{memorize:"5개의 숫자를 외우세요!",ask:"모든 숫자의 합은 얼마인가요?"},
+    q4:{memorize:"5개의 숫자를 외우세요!",ask:"3번째와 5번째 숫자의 합은 얼마인가요?"},
+    q5:{memorize:"이 장면을 잘 기억하세요!",ask:"남자가 산 사과는 몇 개인가요?"},
+    grades:[
+      {label:"🏆 완벽",stars:"⭐⭐⭐⭐⭐",title:"놀라운 기억력!",color:"#43e8d8",desc:"단기 기억력이 매우 뛰어납니다. 뇌 건강이 최상의 상태예요!",tips:["매일 기억력 도전을 계속하세요","가족과 함께 이 테스트를 해보세요","뛰어난 뇌 건강을 유지하세요!"]},
+      {label:"🥇 우수",stars:"⭐⭐⭐⭐",title:"좋은 기억력!",color:"#7c6aff",desc:"기억력이 강합니다! 완벽함까지 한 걸음 남았어요.",tips:["매일 기억력 게임을 연습하세요","전화번호나 시를 외워보세요","정신적으로 활발하게 지내세요"]},
+      {label:"👍 양호",stars:"⭐⭐⭐",title:"잘 하셨어요!",color:"#f39c12",desc:"기억력이 괜찮지만 향상할 여지가 있어요. 계속 연습하세요!",tips:["매일 기억력 훈련을 하세요","기억하고 싶은 것을 적어보세요","더 나은 기억을 위해 7-8시간 수면하세요"]},
+      {label:"💪 계속 도전",stars:"⭐⭐",title:"계속 연습하세요!",color:"#ff9f43",desc:"기억력은 꾸준한 훈련으로 좋아집니다. 포기하지 마세요!",tips:["카드 짝 맞추기 게임을 하세요","규칙적인 운동으로 뇌 기능을 높이세요","스트레스를 줄이세요 — 기억력에 큰 영향을 미쳐요"]},
+      {label:"❤️ 도움 필요",stars:"⭐",title:"전문가 상담을 받으세요",color:"#ff6b9d",desc:"결과가 의사 방문이 도움이 될 수 있음을 나타냅니다. 전문가와 상담해 주세요.",tips:["인지 검진을 위해 의사를 방문하세요","신뢰할 수 있는 가족을 동반하세요","매일 산책과 사회 활동이 도움돼요","조기 발견이 큰 차이를 만들어요!"]}
+    ]
+  }
+};
+// Fill other languages with English (expand as needed)
+['ja','zh','es','fr','de','pt','ar','hi','ru','id'].forEach(c => { TR[c] = {...TR.en}; });
+TR.ja.title="記憶力チャレンジ"; TR.ja.start="🧠 スタート!"; TR.ja.retry="🔄 もう一度";
+TR.zh.title="记忆力挑战"; TR.zh.start="🧠 开始!"; TR.zh.retry="🔄 再试一次";
+TR.es.title="Desafío de Memoria"; TR.es.start="🧠 ¡Comenzar!"; TR.es.retry="🔄 Intentar";
+TR.fr.title="Défi Mémoire"; TR.fr.start="🧠 Commencer!"; TR.fr.retry="🔄 Réessayer";
+TR.de.title="Gedächtnis-Challenge"; TR.de.start="🧠 Starten!"; TR.de.retry="🔄 Nochmal";
+TR.pt.title="Desafio de Memória"; TR.pt.start="🧠 Começar!"; TR.pt.retry="🔄 Tentar";
+TR.ar.title="تحدي الذاكرة"; TR.ar.start="🧠 ابدأ!"; TR.ar.retry="🔄 حاول مرة أخرى";
+TR.hi.title="स्मृति चुनौती"; TR.hi.start="🧠 शुरू!"; TR.hi.retry="🔄 फिर कोशिश";
+TR.ru.title="Испытание Памяти"; TR.ru.start="🧠 Начать!"; TR.ru.retry="🔄 Снова";
+TR.id.title="Tantangan Memori"; TR.id.start="🧠 Mulai!"; TR.id.retry="🔄 Coba Lagi";
+
+// ── Questions ──────────────────────────────────────────
+const questions = [
+  // Q1: Sequence — 4th item
+  {
+    memTime: 4,
+    buildMemory: () => `
+      <div class="seq-row">
+        ${['🌙','⭐','🌈','🔥','💎','🌸'].map((e,i)=>`
+          <div class="seq-item">
+            <div class="seq-emoji">${e}</div>
+            <div class="seq-num">${i+1}</div>
+          </div>`).join('')}
+      </div>`,
+    buildQuestion: () => `<div class="visual" style="min-height:80px;font-size:52px;">🤔</div>`,
+    getMemText: (t) => t.q1.memorize,
+    getAskText: (t) => t.q1.ask,
+    options: [
+      {e:'🌈',l:{en:'3rd — Rainbow',ko:'3번째 — 무지개',ja:'3番目 — 虹',zh:'第3 — 彩虹',es:'3º — Arcoíris',fr:'3e — Arc-en-ciel',de:'3. — Regenbogen',pt:'3º — Arco-íris',ar:'الثالث — قوس قزح',hi:'3वां — इंद्रधनुष',ru:'3-я — Радуга',id:'3 — Pelangi'}},
+      {e:'🔥',l:{en:'4th — Fire',ko:'4번째 — 불꽃',ja:'4番目 — 炎',zh:'第4 — 火焰',es:'4º — Fuego',fr:'4e — Feu',de:'4. — Feuer',pt:'4º — Fogo',ar:'الرابع — نار',hi:'4वां — आग',ru:'4-я — Огонь',id:'4 — Api'}},
+      {e:'💎',l:{en:'5th — Diamond',ko:'5번째 — 다이아몬드',ja:'5番目 — ダイヤ',zh:'第5 — 钻石',es:'5º — Diamante',fr:'5e — Diamant',de:'5. — Diamant',pt:'5º — Diamante',ar:'الخامس — ماس',hi:'5वां — हीरा',ru:'5-я — Бриллиант',id:'5 — Berlian'}},
+      {e:'⭐',l:{en:'2nd — Star',ko:'2번째 — 별',ja:'2番目 — 星',zh:'第2 — 星星',es:'2º — Estrella',fr:'2e — Étoile',de:'2. — Stern',pt:'2º — Estrela',ar:'الثاني — نجمة',hi:'2वां — तारा',ru:'2-я — Звезда',id:'2 — Bintang'}},
+    ],
+    correct: 1,
+    explain: {en:"🔥 Fire was the 4th item! The sequence was: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",ko:"🔥 불꽃이 4번째였어요! 순서: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",ja:"🔥 炎が4番目でした！順番: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",zh:"🔥 火焰是第4个！顺序: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",es:"🔥 ¡El fuego era el 4º! Secuencia: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",fr:"🔥 Le feu était le 4e! Séquence: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",de:"🔥 Feuer war das 4.! Reihenfolge: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",pt:"🔥 Fogo era o 4º! Sequência: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",ar:"🔥 النار كانت العنصر الرابع! التسلسل: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",hi:"🔥 आग 4वां था! क्रम: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",ru:"🔥 Огонь был 4-м! Последовательность: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6",id:"🔥 Api adalah item ke-4! Urutan: 🌙1 ⭐2 🌈3 🔥4 💎5 🌸6"}
+  },
+
+  // Q2: Color sequence — after Red
+  {
+    memTime: 4,
+    buildMemory: () => `
+      <div class="color-seq">
+        ${[['💜','#9b59b6'],['❤️','#e74c3c'],['🧡','#e67e22'],['💛','#f1c40f'],['💙','#3498db']].map(([e,c],i)=>`
+          <div class="seq-item">
+            <div class="color-ball" style="background:${c}22;border-color:${c}66;">${e}</div>
+            <div class="seq-num">${i+1}</div>
+          </div>${i<4?'<div class="color-arrow">→</div>':''}`).join('')}
+      </div>`,
+    buildQuestion: () => `<div class="visual" style="min-height:80px;font-size:52px;">🤔</div>`,
+    getMemText: (t) => t.q2.memorize,
+    getAskText: (t) => t.q2.ask,
+    options: [
+      {e:'💜',l:{en:'Purple',ko:'보라',ja:'紫',zh:'紫色',es:'Morado',fr:'Violet',de:'Lila',pt:'Roxo',ar:'بنفسجي',hi:'बैंगनी',ru:'Фиолетовый',id:'Ungu'}},
+      {e:'🧡',l:{en:'Orange',ko:'주황',ja:'オレンジ',zh:'橙色',es:'Naranja',fr:'Orange',de:'Orange',pt:'Laranja',ar:'برتقالي',hi:'नारंगी',ru:'Оранжевый',id:'Oranye'}},
+      {e:'💛',l:{en:'Yellow',ko:'노랑',ja:'黄色',zh:'黄色',es:'Amarillo',fr:'Jaune',de:'Gelb',pt:'Amarelo',ar:'أصفر',hi:'पीला',ru:'Жёлтый',id:'Kuning'}},
+      {e:'💙',l:{en:'Blue',ko:'파랑',ja:'青',zh:'蓝色',es:'Azul',fr:'Bleu',de:'Blau',pt:'Azul',ar:'أزرق',hi:'नीला',ru:'Синий',id:'Biru'}},
+    ],
+    correct: 1,
+    explain: {en:"🧡 Orange came right after Red! Order: 💜 Purple → ❤️ Red → 🧡 Orange → 💛 Yellow → 💙 Blue",ko:"🧡 주황이 빨강 바로 다음이었어요! 순서: 💜보라 → ❤️빨강 → 🧡주황 → 💛노랑 → 💙파랑",ja:"🧡 オレンジが赤の直後でした！順番: 💜紫 → ❤️赤 → 🧡オレンジ → 💛黄 → 💙青",zh:"🧡 橙色在红色之后！顺序: 💜紫→❤️红→🧡橙→💛黄→💙蓝",es:"🧡 ¡El naranja vino justo después del rojo! Orden: 💜Morado→❤️Rojo→🧡Naranja→💛Amarillo→💙Azul",fr:"🧡 L'orange venait juste après le rouge! Ordre: 💜Violet→❤️Rouge→🧡Orange→💛Jaune→💙Bleu",de:"🧡 Orange kam direkt nach Rot! Reihenfolge: 💜Lila→❤️Rot→🧡Orange→💛Gelb→💙Blau",pt:"🧡 Laranja veio logo após o vermelho! Ordem: 💜Roxo→❤️Vermelho→🧡Laranja→💛Amarelo→💙Azul",ar:"🧡 جاء البرتقالي مباشرة بعد الأحمر! الترتيب: 💜بنفسجي→❤️أحمر→🧡برتقالي→💛أصفر→💙أزرق",hi:"🧡 नारंगी लाल के बाद आया! क्रम: 💜बैंगनी→❤️लाल→🧡नारंगी→💛पीला→💙नीला",ru:"🧡 Оранжевый шёл сразу после красного! Порядок: 💜Фиол.→❤️Красн.→🧡Оранж.→💛Жёлт.→💙Синий",id:"🧡 Oranye datang setelah merah! Urutan: 💜Ungu→❤️Merah→🧡Oranye→💛Kuning→💙Biru"}
+  },
+
+  // Q3: Sum of numbers
+  {
+    memTime: 3,
+    buildMemory: () => `
+      <div class="num-seq">
+        ${[8,3,6,1,4].map(n=>`<div class="num-box">${n}</div>`).join('')}
+      </div>`,
+    buildQuestion: () => `<div class="visual" style="min-height:80px;font-size:52px;">🤔</div>`,
+    getMemText: (t) => t.q3.memorize,
+    getAskText: (t) => t.q3.ask,
+    options: [
+      {e:'2️⃣0️⃣',l:{en:'20',ko:'20',ja:'20',zh:'20',es:'20',fr:'20',de:'20',pt:'20',ar:'20',hi:'20',ru:'20',id:'20'}},
+      {e:'2️⃣2️⃣',l:{en:'22',ko:'22',ja:'22',zh:'22',es:'22',fr:'22',de:'22',pt:'22',ar:'22',hi:'22',ru:'22',id:'22'}},
+      {e:'2️⃣4️⃣',l:{en:'24',ko:'24',ja:'24',zh:'24',es:'24',fr:'24',de:'24',pt:'24',ar:'24',hi:'24',ru:'24',id:'24'}},
+      {e:'2️⃣6️⃣',l:{en:'26',ko:'26',ja:'26',zh:'26',es:'26',fr:'26',de:'26',pt:'26',ar:'26',hi:'26',ru:'26',id:'26'}},
+    ],
+    correct: 1,
+    explain: {en:"22 is correct! 8+3+6+1+4 = 22 ✓",ko:"22가 맞아요! 8+3+6+1+4 = 22 ✓",ja:"22が正解！8+3+6+1+4 = 22 ✓",zh:"22正确！8+3+6+1+4 = 22 ✓",es:"¡22 es correcto! 8+3+6+1+4 = 22 ✓",fr:"22 est correct! 8+3+6+1+4 = 22 ✓",de:"22 ist richtig! 8+3+6+1+4 = 22 ✓",pt:"22 está correto! 8+3+6+1+4 = 22 ✓",ar:"22 صحيح! 8+3+6+1+4 = 22 ✓",hi:"22 सही है! 8+3+6+1+4 = 22 ✓",ru:"22 правильно! 8+3+6+1+4 = 22 ✓",id:"22 benar! 8+3+6+1+4 = 22 ✓"}
+  },
+
+  // Q4: Number pattern — 3rd + 5th sum
+  {
+    memTime: 4,
+    buildMemory: () => `
+      <div class="num-seq">
+        ${[3,8,2,7,5].map((n,i)=>`
+          <div class="seq-item">
+            <div class="num-box">${n}</div>
+            <div class="seq-num">${i+1}</div>
+          </div>`).join('')}
+      </div>`,
+    buildQuestion: () => `<div class="visual" style="min-height:80px;font-size:52px;">🤔</div>`,
+    getMemText: (t) => t.q4.memorize,
+    getAskText: (t) => t.q4.ask,
+    options: [
+      {e:'5️⃣',l:{en:'5',ko:'5',ja:'5',zh:'5',es:'5',fr:'5',de:'5',pt:'5',ar:'5',hi:'5',ru:'5',id:'5'}},
+      {e:'6️⃣',l:{en:'6',ko:'6',ja:'6',zh:'6',es:'6',fr:'6',de:'6',pt:'6',ar:'6',hi:'6',ru:'6',id:'6'}},
+      {e:'7️⃣',l:{en:'7',ko:'7',ja:'7',zh:'7',es:'7',fr:'7',de:'7',pt:'7',ar:'7',hi:'7',ru:'7',id:'7'}},
+      {e:'8️⃣',l:{en:'8',ko:'8',ja:'8',zh:'8',es:'8',fr:'8',de:'8',pt:'8',ar:'8',hi:'8',ru:'8',id:'8'}},
+    ],
+    correct: 2,
+    explain: {en:"7 is correct! The 3rd number was 2 and the 5th was 5. 2+5 = 7 ✓",ko:"7이 맞아요! 3번째 숫자는 2, 5번째 숫자는 5. 2+5 = 7 ✓",ja:"7が正解！3番目の数は2、5番目は5。2+5 = 7 ✓",zh:"7正确！第3个数是2，第5个是5。2+5 = 7 ✓",es:"¡7 es correcto! El 3er número era 2 y el 5to era 5. 2+5 = 7 ✓",fr:"7 est correct! Le 3e nombre était 2 et le 5e était 5. 2+5 = 7 ✓",de:"7 ist richtig! Die 3. Zahl war 2 und die 5. war 5. 2+5 = 7 ✓",pt:"7 está correto! O 3º número era 2 e o 5º era 5. 2+5 = 7 ✓",ar:"7 صحيح! الرقم الثالث كان 2 والخامس 5. 2+5 = 7 ✓",hi:"7 सही है! तीसरा नंबर 2 था और पांचवां 5. 2+5 = 7 ✓",ru:"7 правильно! 3-е число было 2, 5-е — 5. 2+5 = 7 ✓",id:"7 benar! Angka ke-3 adalah 2 dan ke-5 adalah 5. 2+5 = 7 ✓"}
+  },
+
+  // Q5: Story memory
+  {
+    memTime: 5,
+    buildMemory: () => `
+      <div class="story-row">
+        <div class="story-item"><div class="story-emoji">🧔</div><div class="story-label">Man</div></div>
+        <div style="font-size:28px;color:var(--muted);">→</div>
+        <div class="story-item"><div class="story-emoji">🚗</div><div class="story-label">Car</div></div>
+        <div style="font-size:28px;color:var(--muted);">→</div>
+        <div class="story-item"><div class="story-emoji">🏪</div><div class="story-label">Store</div></div>
+        <div style="font-size:28px;color:var(--muted);">→</div>
+        <div class="story-item"><div class="story-emoji">🍎🍎🍎</div><div class="story-label">Bought</div></div>
+      </div>`,
+    buildQuestion: () => `<div class="visual" style="min-height:80px;font-size:52px;">🤔</div>`,
+    getMemText: (t) => t.q5.memorize,
+    getAskText: (t) => t.q5.ask,
+    options: [
+      {e:'1️⃣',l:{en:'1 apple',ko:'사과 1개',ja:'りんご1個',zh:'1个苹果',es:'1 manzana',fr:'1 pomme',de:'1 Apfel',pt:'1 maçã',ar:'تفاحة واحدة',hi:'1 सेब',ru:'1 яблоко',id:'1 apel'}},
+      {e:'2️⃣',l:{en:'2 apples',ko:'사과 2개',ja:'りんご2個',zh:'2个苹果',es:'2 manzanas',fr:'2 pommes',de:'2 Äpfel',pt:'2 maçãs',ar:'تفاحتان',hi:'2 सेब',ru:'2 яблока',id:'2 apel'}},
+      {e:'3️⃣',l:{en:'3 apples',ko:'사과 3개',ja:'りんご3個',zh:'3个苹果',es:'3 manzanas',fr:'3 pommes',de:'3 Äpfel',pt:'3 maçãs',ar:'3 تفاحات',hi:'3 सेब',ru:'3 яблока',id:'3 apel'}},
+      {e:'4️⃣',l:{en:'4 apples',ko:'사과 4개',ja:'りんご4個',zh:'4个苹果',es:'4 manzanas',fr:'4 pommes',de:'4 Äpfel',pt:'4 maçãs',ar:'4 تفاحات',hi:'4 सेब',ru:'4 яблока',id:'4 apel'}},
+    ],
+    correct: 2,
+    explain: {en:"3 apples! 🍎🍎🍎 The man drove to the store and bought 3 apples.",ko:"사과 3개! 🍎🍎🍎 남자가 차를 타고 가게에 가서 사과 3개를 샀어요.",ja:"りんご3個！🍎🍎🍎 男性は車で店に行き、りんごを3個買いました。",zh:"3个苹果！🍎🍎🍎 男人开车去商店买了3个苹果。",es:"¡3 manzanas! 🍎🍎🍎 El hombre fue en auto a la tienda y compró 3 manzanas.",fr:"3 pommes! 🍎🍎🍎 L'homme a conduit jusqu'au magasin et a acheté 3 pommes.",de:"3 Äpfel! 🍎🍎🍎 Der Mann fuhr mit dem Auto zum Laden und kaufte 3 Äpfel.",pt:"3 maçãs! 🍎🍎🍎 O homem foi de carro à loja e comprou 3 maçãs.",ar:"3 تفاحات! 🍎🍎🍎 قاد الرجل السيارة إلى المتجر واشترى 3 تفاحات.",hi:"3 सेब! 🍎🍎🍎 आदमी कार से दुकान गया और 3 सेब खरीदे।",ru:"3 яблока! 🍎🍎🍎 Мужчина поехал в магазин и купил 3 яблока.",id:"3 apel! 🍎🍎🍎 Pria itu pergi ke toko dengan mobil dan membeli 3 apel."}
+  }
+];
+
+// ── State ──────────────────────────────────────────────
+let lang = 'en', curQ = 0, score = 0, timerInt = null, adTimerInt = null;
+let pendingShareAction = null, isMemorizing = false;
+
+// ── Init ──────────────────────────────────────────────
+function initLang() {
+  document.getElementById('langGrid').innerHTML = langs.map(l =>
+    `<button class="lang-btn ${l.c===lang?'on':''}" onclick="setLang('${l.c}')">${l.n}</button>`
+  ).join('');
+}
+
+function setLang(c) {
+  lang = c;
+  const t = TR[c]||TR.en;
+  document.getElementById('mainTitle').textContent = t.title;
+  document.getElementById('mainSub').innerHTML = t.sub;
+  document.getElementById('iQ').textContent = t.iQ;
+  document.getElementById('iT').textContent = t.iT;
+  document.getElementById('iG').textContent = t.iG;
+  document.getElementById('startBtn').textContent = t.start;
+  document.getElementById('retryBtn').textContent = t.retry;
+  document.getElementById('shareTitle').textContent = t.shareTitle;
+  initLang();
+}
+
+function startQuiz() {
+  curQ=0; score=0;
+  document.getElementById('startCard').style.display='none';
+  document.getElementById('langSec').style.display='none';
+  document.getElementById('mainHeader').style.display='none';
+  document.getElementById('adMid').style.display='none';
+  document.getElementById('quizArea').style.display='block';
+  showQ();
+}
+
+// ── Show Question ──────────────────────────────────────
+function showQ() {
+  isMemorizing = true;
+  const q = questions[curQ];
+  const t = TR[lang]||TR.en;
+  document.getElementById('progFill').style.width = `${curQ*20}%`;
+  document.getElementById('progCounter').textContent = `${curQ+1} / 5`;
+  document.getElementById('progScore').textContent = `⭐ ${score}`;
+  document.getElementById('fb').style.display='none';
+  document.getElementById('nextBtn').style.display='none';
+  document.getElementById('opts').innerHTML='';
+
+  // Badge
+  const badge = document.getElementById('qBadge');
+  badge.textContent = '🧠 Memory';
+  badge.style.cssText = 'background:rgba(124,106,255,0.15);color:#7c6aff;border:1px solid rgba(124,106,255,0.3);';
+
+  // Memorize phase
+  document.getElementById('qText').textContent = q.getMemText(t);
+  document.getElementById('visual').innerHTML = q.buildMemory();
+  document.getElementById('timerLabel').style.display='block';
+  document.getElementById('timerBar').style.display='block';
+
+  let timeLeft = q.memTime;
+  document.getElementById('timerFill').style.width='100%';
+  document.getElementById('timerLabel').textContent = `👀 ${t.memorize} ${timeLeft}${t.secondsLeft}`;
+
+  timerInt = setInterval(() => {
+    timeLeft--;
+    const pct = (timeLeft/q.memTime)*100;
+    document.getElementById('timerFill').style.width = pct+'%';
+    document.getElementById('timerLabel').textContent = `👀 ${t.memorize} ${timeLeft}${t.secondsLeft}`;
+    if (timeLeft <= 0) {
+      clearInterval(timerInt);
+      showAskPhase(q, t);
+    }
+  }, 1000);
+}
+
+function showAskPhase(q, t) {
+  isMemorizing = false;
+  document.getElementById('timerLabel').style.display='none';
+  document.getElementById('timerBar').style.display='none';
+  document.getElementById('qText').textContent = q.getAskText(t);
+  document.getElementById('visual').innerHTML = q.buildQuestion();
+
+  // Options
+  const grid = document.getElementById('opts');
+  grid.className = 'opts g2';
+  grid.innerHTML = q.options.map((o,i) => {
+    const lbl = o.l[lang]||o.l.en;
+    return `<button class="opt-btn" onclick="answer(${i})" id="o${i}">
+      <span class="oe">${o.e}</span>${lbl}
+    </button>`;
+  }).join('');
+}
+
+function answer(idx) {
+  if (isMemorizing) return;
+  const q = questions[curQ];
+  const t = TR[lang]||TR.en;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const correct = q.correct;
+  const fb = document.getElementById('fb');
+
+  if (idx === correct) {
+    score++;
+    document.getElementById(`o${idx}`).classList.add('correct');
+    fb.className='fb ok';
+  } else {
+    document.getElementById(`o${idx}`).classList.add('wrong');
+    document.getElementById(`o${correct}`).classList.add('reveal');
+    fb.className='fb no';
+  }
+
+  fb.textContent = (idx===correct ? t.correct : t.wrong) + ' ' + (q.explain[lang]||q.explain.en);
+  fb.style.display='block';
+  const nb = document.getElementById('nextBtn');
+  nb.style.display='block';
+  nb.textContent = curQ<4 ? t.next : t.seeResult;
+  document.getElementById('progScore').textContent = `⭐ ${score}`;
+}
+
+function nextQ() {
+  if(timerInt) clearInterval(timerInt);
+  curQ++;
+  if(curQ < 5) showQ();
+  else showResult();
+}
+
+// ── Result ────────────────────────────────────────────
+function showResult() {
+  document.getElementById('quizArea').style.display='none';
+  document.getElementById('resultArea').style.display='block';
+  const t = TR[lang]||TR.en;
+
+  let gi = score===5?0:score===4?1:score===3?2:score<=2&&score>0?3:4;
+  if(score===0) gi=4;
+  const g = t.grades[gi];
+
+  document.getElementById('resStars').textContent = g.stars;
+  document.getElementById('resBadge').textContent = g.label;
+  document.getElementById('resBadge').style.cssText = `background:${g.color}22;color:${g.color};border:1.5px solid ${g.color}44;`;
+  const rc = document.getElementById('resCircle');
+  rc.style.borderColor = g.color;
+  rc.style.boxShadow = `0 0 32px ${g.color}33`;
+  document.getElementById('resNum').textContent = score;
+  document.getElementById('resNum').style.color = g.color;
+  document.getElementById('resTitle').textContent = g.title;
+  document.getElementById('resTitle').style.color = g.color;
+  document.getElementById('resDesc').textContent = g.desc;
+  document.getElementById('resTips').innerHTML = `
+    <div class="tips-title">💡 Tips</div>
+    ${g.tips.map(tip=>`<div class="tip-item"><span class="tip-dot">→</span>${tip}</div>`).join('')}`;
+  document.getElementById('retryBtn').textContent = t.retry;
+  document.getElementById('shareTitle').textContent = t.shareTitle;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Share / Ad Modal ───────────────────────────────────
+function openShare(action) {
+  pendingShareAction = action;
+  // Show 15s ad modal
+  document.getElementById('adModal').classList.add('show');
+  document.getElementById('adModalSub').textContent = (TR[lang]||TR.en).adSub;
+  document.getElementById('adSkipBtn').style.display='none';
+
+  let countdown = 15;
+  document.getElementById('adCount').textContent = countdown;
+  document.getElementById('adTimerFill').style.width='100%';
+
+  adTimerInt = setInterval(() => {
+    countdown--;
+    const pct = (countdown/15)*100;
+    document.getElementById('adTimerFill').style.width = pct+'%';
+    document.getElementById('adCount').textContent = countdown;
+    if(countdown <= 0) {
+      clearInterval(adTimerInt);
+      document.getElementById('adCount').textContent = '✅';
+      document.getElementById('adSkipBtn').style.display='inline-block';
+    }
+  }, 1000);
+}
+
+function afterAd() {
+  document.getElementById('adModal').classList.remove('show');
+  clearInterval(adTimerInt);
+
+  if(pendingShareAction === 'download') {
+    generateAndDownload();
+  } else if(pendingShareAction === 'twitter') {
+    shareToTwitter();
+  } else if(pendingShareAction === 'facebook') {
+    shareToFacebook();
+  } else if(pendingShareAction === 'whatsapp') {
+    shareToWhatsApp();
+  } else if(pendingShareAction === 'instagram') {
+    generateAndDownload(); // Download image then user shares manually
+  }
+}
+
+function generateAndDownload() {
+  const t = TR[lang]||TR.en;
+  let gi = score===5?0:score===4?1:score===3?2:score>0?3:4;
+  const g = t.grades[gi];
+
+  // Show image preview modal
+  const modal = document.getElementById('imgModal');
+  const preview = document.getElementById('imgPreview');
+  const dlBtn = document.getElementById('imgDlBtn');
+  preview.innerHTML = '<div style="color:#8888bb;font-size:14px;padding:40px;">Generating image... ⏳</div>';
+  modal.style.display = 'flex';
+  dlBtn.style.display = 'none';
+
+  // Build share card (9:16 = 450x800)
+  const canvas = document.getElementById('shareCanvas');
+  canvas.style.cssText = 'position:fixed;left:-9999px;top:0;width:450px;height:800px;';
+  canvas.innerHTML = `
+    <div style="width:450px;height:800px;background:linear-gradient(160deg,#0d0d1a 0%,#1a1a2e 50%,#0d0d1a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Nunito,sans-serif;position:relative;overflow:hidden;padding:40px 30px;">
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 30% 20%,${g.color}15 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(124,106,255,0.15) 0%,transparent 60%);"></div>
+      <div style="margin-bottom:24px;display:flex;align-items:center;gap:10px;position:relative;">
+        <div style="width:44px;height:44px;background:linear-gradient(135deg,#7c6aff,#ff6b9d);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;">🧠</div>
+        <span style="font-size:18px;font-weight:800;color:#fff;letter-spacing:1px;">BrainQuiz Daily</span>
+      </div>
+      <div style="font-size:34px;margin-bottom:16px;letter-spacing:6px;position:relative;">${g.stars}</div>
+      <div style="width:140px;height:140px;border-radius:50%;border:4px solid ${g.color};box-shadow:0 0 40px ${g.color}44;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:24px;background:rgba(255,255,255,0.03);position:relative;">
+        <span style="font-size:52px;font-weight:900;color:${g.color};line-height:1;">${score}</span>
+        <span style="font-size:14px;color:#8888bb;margin-top:3px;font-weight:700;">/ 5</span>
+      </div>
+      <div style="background:${g.color}22;border:1.5px solid ${g.color}55;border-radius:20px;padding:7px 22px;font-size:14px;font-weight:800;color:${g.color};margin-bottom:16px;position:relative;">${g.label}</div>
+      <div style="font-size:26px;font-weight:900;color:${g.color};margin-bottom:10px;text-align:center;position:relative;">${g.title}</div>
+      <div style="font-size:13px;color:#8888bb;line-height:1.7;text-align:center;margin-bottom:32px;max-width:340px;font-weight:600;position:relative;">${g.desc}</div>
+      <div style="width:60px;height:3px;background:linear-gradient(90deg,#7c6aff,#43e8d8);border-radius:2px;margin-bottom:28px;position:relative;"></div>
+      <div style="font-size:13px;color:#8888bb;margin-bottom:8px;font-weight:700;position:relative;">Try the test yourself!</div>
+      <div style="font-size:16px;font-weight:800;color:#7c6aff;position:relative;">🔗 brainquizdaily.com</div>
+      <div style="position:absolute;bottom:30px;font-size:11px;color:#555566;font-weight:700;">#BrainQuiz #MemoryTest #BrainHealth</div>
+    </div>`;
+
+  setTimeout(() => {
+    html2canvas(canvas, {
+      width:450, height:800, scale:2,
+      backgroundColor:'#0d0d1a',
+      useCORS:true,
+      logging:false
+    }).then(c => {
+      const dataURL = c.toDataURL('image/png');
+      canvas.innerHTML = '';
+      // Show preview
+      preview.innerHTML = `<img src="${dataURL}" style="width:100%;max-width:280px;border-radius:12px;display:block;margin:0 auto;" alt="Result Image">`;
+      // Enable download button
+      dlBtn.style.display = 'block';
+      dlBtn.onclick = () => {
+        const link = document.createElement('a');
+        link.download = 'BrainQuiz_Result_' + score + '_5.png';
+        link.href = dataURL;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+    }).catch(err => {
+      preview.innerHTML = '<div style="color:#ff6b9d;font-size:13px;padding:20px;">Failed to generate image.<br>Please try again.</div>';
+      console.error(err);
+    });
+  }, 300);
+}
+
+function shareToTwitter() {
+  const t = TR[lang]||TR.en;
+  let gi = score===5?0:score===4?1:score===3?2:score>0?3:4;
+  const g = t.grades[gi];
+  const text = encodeURIComponent(`I scored ${score}/5 on BrainQuiz Daily Memory Test! ${g.stars}\n${g.title}\n\n#BrainQuiz #MemoryTest #BrainHealth\nTry it: https://brainquizdaily.com`);
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+}
+
+function shareToFacebook() {
+  const url = encodeURIComponent('https://brainquizdaily.com');
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+}
+
+function shareToWhatsApp() {
+  const t = TR[lang]||TR.en;
+  let gi = score===5?0:score===4?1:score===3?2:score>0?3:4;
+  const g = t.grades[gi];
+  const text = encodeURIComponent('I scored ' + score + '/5 on BrainQuiz Daily Memory Test! ' + g.stars + ' ' + g.title + ' Try it: https://brainquizdaily.com #BrainQuiz #MemoryTest');
+  window.open('https://wa.me/?text=' + text, '_blank');
+}
+
+function reset() {
+  if(timerInt) clearInterval(timerInt);
+  curQ=0; score=0; isMemorizing=false;
+  document.getElementById('resultArea').style.display='none';
+  document.getElementById('mainHeader').style.display='block';
+  document.getElementById('langSec').style.display='block';
+  document.getElementById('startCard').style.display='block';
+  document.getElementById('adMid').style.display='flex';
+}
+
+// Init
+setLang('en');
+</script>
+</body>
+</html>
