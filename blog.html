@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog – BrainQuiz Daily | Brain Health & Dementia Prevention Tips</title>
+<meta name="description" content="Learn about dementia prevention, brain training tips, memory improvement techniques, and cognitive health research from BrainQuiz Daily.">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3386645467399209" crossorigin="anonymous"></script>
+<style>
+:root {
+  --bg: #0d0d1a;
+  --surface: #13131f;
+  --card: #1a1a2e;
+  --border: #2a2a45;
+  --accent: #7c6aff;
+  --accent2: #ff6b9d;
+  --accent3: #43e8d8;
+  --text: #f0f0ff;
+  --muted: #8888bb;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;line-height:1.7;}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 20%,rgba(124,106,255,0.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(67,232,216,0.05) 0%,transparent 60%);pointer-events:none;z-index:0;}
+.wrap{max-width:780px;margin:0 auto;padding:20px 20px 60px;position:relative;z-index:1;}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#7c6aff,#ff6b9d);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.nav-logo-text{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;background:linear-gradient(135deg,#7c6aff,#43e8d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-links{display:flex;gap:20px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:700;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);}
+
+.ad-banner{margin:0 auto 28px;max-width:780px;min-height:90px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.ad-mid{margin:32px auto;max-width:780px;min-height:250px;background:var(--surface);border:1px dashed var(--border);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+
+.page-title{font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,36px);font-weight:800;margin-bottom:8px;}
+.page-sub{color:var(--muted);font-size:15px;font-weight:600;margin-bottom:32px;}
+
+/* Article cards */
+.article-grid{display:grid;gap:20px;margin-bottom:40px;}
+.article-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s;}
+.article-card:hover{border-color:var(--accent);}
+.article-header{padding:24px 24px 0;}
+.article-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.article-tag{display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
+.article-date{font-size:12px;color:var(--muted);font-weight:600;}
+.article-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:10px;line-height:1.3;}
+.article-excerpt{font-size:14px;color:var(--muted);font-weight:600;line-height:1.7;margin-bottom:16px;}
+.article-body{padding:0 24px 24px;}
+.article-body h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin:18px 0 8px;color:var(--accent3);}
+.article-body p{font-size:14px;color:var(--muted);font-weight:600;line-height:1.8;margin-bottom:12px;}
+.article-body ul{margin:8px 0 12px 20px;}
+.article-body ul li{font-size:14px;color:var(--muted);font-weight:600;line-height:1.8;margin-bottom:4px;}
+.article-divider{height:1px;background:var(--border);margin:0 24px;}
+
+/* Read more toggle */
+.read-more-btn{display:inline-block;margin:0 24px 24px;padding:8px 18px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;}
+.read-more-btn:hover{border-color:var(--accent);color:var(--accent);}
+.article-full{display:none;padding:0 24px;}
+.article-full.open{display:block;}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,rgba(124,106,255,0.15),rgba(67,232,216,0.1));border:1px solid rgba(124,106,255,0.3);border-radius:20px;padding:36px;text-align:center;margin:40px 0;}
+.cta-box h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px;}
+.cta-box p{color:var(--muted);font-size:14px;font-weight:600;margin-bottom:20px;}
+.cta-btn{display:inline-block;padding:13px 28px;background:linear-gradient(135deg,#7c6aff,#9b5de5);border-radius:12px;color:#fff;text-decoration:none;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;transition:all .3s;}
+.cta-btn:hover{transform:translateY(-2px);}
+
+footer{border-top:1px solid var(--border);padding-top:24px;text-align:center;color:var(--muted);font-size:13px;font-weight:600;}
+footer a{color:var(--muted);text-decoration:none;}
+footer a:hover{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">🧠</div>
+    <span class="nav-logo-text">BrainQuiz Daily</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Test</a>
+    <a href="about.html">About</a>
+    <a href="blog.html" class="active">Blog</a>
+  </div>
+</nav>
+
+<!-- Top Ad -->
+<div class="ad-banner">
+  <ins class="adsbygoogle"
+    style="display:block;width:100%;height:90px;"
+    data-ad-client="ca-pub-3386645467399209"
+    data-ad-slot="XXXXXXXXXX"
+    data-ad-format="horizontal"
+    data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+
+<div class="page-title">🧠 Brain Health Blog</div>
+<div class="page-sub">Tips, research, and guides to keep your brain sharp and prevent dementia.</div>
+
+<div class="article-grid">
+
+  <!-- Article 1 -->
+  <div class="article-card">
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="article-tag" style="background:rgba(67,232,216,0.15);color:#43e8d8;">Prevention</span>
+        <span class="article-date">May 2026</span>
+      </div>
+      <div class="article-title">10 Proven Ways to Prevent Dementia Naturally</div>
+      <div class="article-excerpt">Research shows that up to 40% of dementia cases could be prevented or delayed through lifestyle changes. Here are the most effective strategies backed by science.</div>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      <h3>1. Exercise Regularly</h3>
+      <p>Aerobic exercise is one of the most powerful tools for brain health. Studies show that 30 minutes of moderate exercise 5 times per week can reduce dementia risk by up to 35%. Exercise increases blood flow to the brain, promotes the growth of new brain cells, and reduces inflammation.</p>
+      <h3>2. Stay Socially Active</h3>
+      <p>Social isolation is a major risk factor for dementia. Staying connected with family, friends, and your community keeps the brain engaged and reduces the risk of cognitive decline by up to 26%.</p>
+    </div>
+    <button class="read-more-btn" onclick="toggleArticle('a1')">Read More ↓</button>
+    <div class="article-full" id="a1">
+      <h3>3. Challenge Your Brain Daily</h3>
+      <p>Learning new skills, reading, playing musical instruments, and solving puzzles all build cognitive reserve — your brain's ability to function even when damaged. Apps like BrainQuiz Daily make daily brain training easy and fun.</p>
+      <h3>4. Eat a Brain-Healthy Diet</h3>
+      <p>The Mediterranean diet — rich in olive oil, fish, nuts, fruits, and vegetables — is strongly associated with a reduced risk of Alzheimer's disease. Omega-3 fatty acids found in fatty fish are especially important for brain health.</p>
+      <h3>5. Get Quality Sleep</h3>
+      <p>During sleep, your brain clears out toxic proteins like amyloid beta that are linked to Alzheimer's disease. Adults need 7-9 hours of quality sleep per night. Chronic sleep deprivation significantly increases dementia risk.</p>
+      <h3>6. Manage Blood Pressure</h3>
+      <p>High blood pressure in midlife is one of the strongest modifiable risk factors for dementia. Regular monitoring and treatment of hypertension can significantly reduce your risk.</p>
+      <h3>7. Control Diabetes and Blood Sugar</h3>
+      <p>Type 2 diabetes doubles the risk of Alzheimer's disease. Maintaining healthy blood sugar levels through diet, exercise, and medication protects both your body and your brain.</p>
+      <h3>8. Avoid Smoking and Excess Alcohol</h3>
+      <p>Smoking nearly doubles dementia risk. Heavy alcohol use is also strongly associated with brain damage and early-onset dementia. Quitting smoking at any age reduces your risk.</p>
+      <h3>9. Treat Depression and Anxiety</h3>
+      <p>Chronic stress, depression, and anxiety all affect brain health. High cortisol levels from stress damage the hippocampus — the brain's memory center. Meditation, therapy, and social support all help.</p>
+      <h3>10. Protect Your Head</h3>
+      <p>Traumatic brain injury is a significant risk factor for dementia. Always wear helmets when cycling or skiing, and take fall prevention seriously, especially for older adults.</p>
+    </div>
+  </div>
+
+  <!-- Article 2 -->
+  <div class="article-card">
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="article-tag" style="background:rgba(124,106,255,0.15);color:#7c6aff;">Memory</span>
+        <span class="article-date">May 2026</span>
+      </div>
+      <div class="article-title">How Memory Works — And Why It Declines With Age</div>
+      <div class="article-excerpt">Understanding how memory works is the first step to protecting it. Learn about the different types of memory, why they decline with age, and what you can do about it.</div>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      <h3>Types of Memory</h3>
+      <p>Memory is not a single system — it's a collection of different processes in different parts of the brain. The main types include:</p>
+      <ul>
+        <li><strong>Short-term memory</strong> — holds information for seconds to minutes (tested by BrainQuiz Daily)</li>
+        <li><strong>Long-term memory</strong> — stores information for days, years, or a lifetime</li>
+        <li><strong>Working memory</strong> — actively manipulates information in real time</li>
+        <li><strong>Procedural memory</strong> — remembers how to do things (like riding a bike)</li>
+      </ul>
+      <h3>Why Memory Declines With Age</h3>
+      <p>Starting in our 30s, the brain begins to shrink slightly each year. The hippocampus — critical for forming new memories — is especially vulnerable. Blood flow to the brain decreases, and the brain becomes less efficient at forming and retrieving memories.</p>
+    </div>
+    <button class="read-more-btn" onclick="toggleArticle('a2')">Read More ↓</button>
+    <div class="article-full" id="a2">
+      <h3>Normal Aging vs. Dementia</h3>
+      <p>It's important to distinguish between normal age-related memory changes and dementia. Normal aging might cause you to forget where you put your keys occasionally. Dementia causes memory loss that interferes with daily life — forgetting the names of close family members, getting lost in familiar places, or losing the ability to manage finances.</p>
+      <h3>Early Warning Signs of Dementia</h3>
+      <ul>
+        <li>Asking the same questions repeatedly</li>
+        <li>Getting lost in familiar places</li>
+        <li>Difficulty following conversations or instructions</li>
+        <li>Trouble managing money or bills</li>
+        <li>Changes in mood or personality</li>
+        <li>Losing track of dates, seasons, or time</li>
+      </ul>
+      <h3>How Brain Training Helps</h3>
+      <p>Regular cognitive stimulation — like daily memory tests — can build cognitive reserve, which helps the brain compensate for age-related changes. Studies show that people who stay mentally active have a significantly lower risk of dementia, even if they develop some brain changes associated with the disease.</p>
+      <p>Taking a memory test like BrainQuiz Daily regularly can also help you notice changes in your performance over time, making it easier to spot potential issues early.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Mid Ad -->
+<div class="ad-mid">
+  <ins class="adsbygoogle"
+    style="display:block;width:300px;height:250px;"
+    data-ad-client="ca-pub-3386645467399209"
+    data-ad-slot="XXXXXXXXXX"
+    data-ad-format="rectangle"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+
+<div class="article-grid">
+
+  <!-- Article 3 -->
+  <div class="article-card">
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="article-tag" style="background:rgba(255,107,157,0.15);color:#ff6b9d;">Family</span>
+        <span class="article-date">May 2026</span>
+      </div>
+      <div class="article-title">How to Help Your Parents Stay Mentally Sharp</div>
+      <div class="article-excerpt">Watching a parent's memory decline is one of the hardest experiences a family can face. Here's what you can do to support your parents' brain health and catch early signs of decline.</div>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      <h3>Start the Conversation Early</h3>
+      <p>Many families wait until there's a crisis to talk about cognitive health. Starting the conversation early — while your parents are still sharp — makes it easier to establish routines and notice changes over time.</p>
+      <h3>Do Brain Training Together</h3>
+      <p>Apps like BrainQuiz Daily are perfect for doing with your parents. Taking the test together makes it feel less like a medical evaluation and more like a fun activity. You can compare scores, cheer each other on, and make it a regular family ritual.</p>
+    </div>
+    <button class="read-more-btn" onclick="toggleArticle('a3')">Read More ↓</button>
+    <div class="article-full" id="a3">
+      <h3>Keep Them Socially Connected</h3>
+      <p>Social isolation is one of the biggest risk factors for dementia in older adults. Help your parents maintain social connections through regular family visits, community groups, religious organizations, or even video calls with distant relatives.</p>
+      <h3>Encourage Physical Activity</h3>
+      <p>Even gentle exercise like daily walks, gardening, or swimming can significantly reduce dementia risk. Exercise doesn't need to be intense — consistency is what matters most. Try exercising together to make it more enjoyable.</p>
+      <h3>Monitor Diet and Sleep</h3>
+      <p>Help your parents eat a brain-healthy diet rich in fruits, vegetables, whole grains, and fatty fish. Monitor their sleep quality — sleep disorders like sleep apnea are common in older adults and significantly increase dementia risk.</p>
+      <h3>Watch for Warning Signs</h3>
+      <p>Notice if your parents are having more trouble with everyday tasks like managing bills, following recipes, or navigating familiar routes. These can be early signs of cognitive decline that warrant a visit to the doctor.</p>
+      <h3>When to See a Doctor</h3>
+      <p>If you notice significant memory changes, personality shifts, or difficulty with daily activities, encourage your parents to see their doctor. Early diagnosis of dementia opens up more treatment options and gives families more time to plan.</p>
+    </div>
+  </div>
+
+  <!-- Article 4 -->
+  <div class="article-card">
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="article-tag" style="background:rgba(243,156,18,0.15);color:#f39c12;">Science</span>
+        <span class="article-date">May 2026</span>
+      </div>
+      <div class="article-title">The Science Behind Memory Tests and Dementia Screening</div>
+      <div class="article-excerpt">Memory tests have been used by doctors for decades to screen for cognitive decline. Learn how these tests work, what they measure, and how BrainQuiz Daily is inspired by clinical screening tools.</div>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-body">
+      <h3>How Clinical Memory Tests Work</h3>
+      <p>Doctors use standardized memory tests like the Mini-Mental State Examination (MMSE) and the Montreal Cognitive Assessment (MoCA) to screen for dementia. These tests assess multiple cognitive domains including memory, attention, language, and visuospatial ability.</p>
+      <h3>What Memory Tests Measure</h3>
+      <ul>
+        <li><strong>Immediate recall</strong> — can you remember a list of words right after hearing them?</li>
+        <li><strong>Delayed recall</strong> — can you remember that list 20 minutes later?</li>
+        <li><strong>Attention and concentration</strong> — can you follow a sequence or pattern?</li>
+        <li><strong>Working memory</strong> — can you hold information in mind while doing something with it?</li>
+      </ul>
+    </div>
+    <button class="read-more-btn" onclick="toggleArticle('a4')">Read More ↓</button>
+    <div class="article-full" id="a4">
+      <h3>How BrainQuiz Daily is Designed</h3>
+      <p>BrainQuiz Daily draws inspiration from clinical memory screening principles to create a fun, accessible version of these tests. Our 5 questions assess short-term memory, sequential memory, numerical memory, and story recall — all key indicators of cognitive health.</p>
+      <h3>Limitations of Self-Assessment Tests</h3>
+      <p>It's important to understand that BrainQuiz Daily is not a medical diagnosis. Many factors can affect performance on any given day, including stress, fatigue, illness, and distraction. A low score on our test doesn't necessarily mean you have dementia — but it may be worth discussing with your doctor.</p>
+      <h3>The Value of Regular Testing</h3>
+      <p>The most valuable use of BrainQuiz Daily is tracking your performance over time. A single score tells you little, but a pattern of declining scores over weeks or months could be meaningful information to share with a healthcare provider.</p>
+      <h3>What to Do If You're Concerned</h3>
+      <p>If you or a loved one consistently scores low on memory tests, or if you notice the warning signs of dementia, the most important step is to see a doctor. Early diagnosis leads to better outcomes, and many causes of cognitive decline are treatable.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-box">
+  <h2>Test Your Memory Now 🧠</h2>
+  <p>Take our free 5-minute memory test and find out how sharp your brain really is. Share with your family and take it together!</p>
+  <a href="index.html" class="cta-btn">Start Free Test →</a>
+</div>
+
+<footer>
+  <p>© 2026 BrainQuiz Daily · <a href="about.html">About</a> · <a href="blog.html">Blog</a> · <a href="index.html">Take the Test</a></p>
+  <p style="margin-top:8px;font-size:12px;">This content is for informational purposes only and does not constitute medical advice. Always consult a qualified healthcare professional for medical concerns.</p>
+</footer>
+
+</div>
+
+<script>
+function toggleArticle(id) {
+  const el = document.getElementById(id);
+  const btn = el.previousElementSibling;
+  el.classList.toggle('open');
+  btn.textContent = el.classList.contains('open') ? 'Read Less ↑' : 'Read More ↓';
+}
+</script>
+
+</body>
+</html>
